@@ -1,10 +1,14 @@
 -- local file_path = "/tmp/nvim_trace.json"
+local current_file = debug.getinfo(1, "S").source:sub(2)
+local package_dir = vim.fn.fnamemodify(current_file, ":p:h:h:h")
+
 
 local file_watcher
 PyTrace = {
     namespace = vim.api.nvim_create_namespace("trace"),
     path = "/tmp/nvim_trace.json",
     highlight = "VirtualPerformance",
+    path_to_profiler = package_dir .. "/src/profiler_package/nvim_trace/__main__.py",
 
     ---@return table: table with the filenames as keys and a subtable containing the lines and the corresponding times
     read_file = function(path)
@@ -77,6 +81,7 @@ PyTrace = {
     end,
 
     watch_file = function (path)
+        path = path or "/tmp/nvim_trace.json"
         file_watcher = vim.loop.new_fs_event()
         if not file_watcher then error("Critical filewatcher cannot be started") end
         file_watcher:start(path, {}, vim.schedule_wrap(function()
@@ -86,10 +91,12 @@ PyTrace = {
 
     setup = function (opts)
         opts = opts or {}
-        PyTrace.namespace = opts.namespace or vim.api.nvim_create_namespace("trace")
-        PyTrace.highlight = opts.highlight or PyTrace.highlight
+        opts.namespace = opts.namespace or vim.api.nvim_create_namespace("trace")
+        opts.highlight = opts.highlight or PyTrace.highlight
+        self = setmetatable(PyTrace, opts)
+
         PyTrace.watch_file(opts.file or "/tmp/nvim_trace.json")
-        return PyTrace
+        return self
     end
 }
 
