@@ -90,6 +90,7 @@ PyTrace = {
     end,
 
     setup = function (opts)
+        require('nvim-py-profiler.server').start_lua_server()
         opts = opts or {}
         opts.namespace = opts.namespace or vim.api.nvim_create_namespace("trace")
         opts.highlight = opts.highlight or PyTrace.highlight

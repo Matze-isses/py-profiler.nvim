@@ -22,15 +22,7 @@ class Tracer:
         self._send = Sender()
         self._recursion_level = 0
         self._max = 3
-        self._times = [("", 0)]
-
-        self.pending_lines = []
         self._context = {}
-        self._call_counting = {}
-        self.always_in_vars = {}
-        self._vars_before = {}
-        self.profile = profile.Profile(timer=time.perf_counter_ns)
-        self.data = []
 
     def __call__(self, frame, event, args):
         in_current_file = frame.f_code.co_filename.startswith("/home/admin/nvim/")
@@ -54,19 +46,9 @@ class Tracer:
 
 
 
-tracer = Tracer()
-sys.setprofile(tracer.__call__)
-sys.settrace(tracer.__call__)
-time.sleep(0.1)
-
-import test_files.other_test
-import test_files.numpy_test
-
-sys.settrace(None)
-sys.setprofile(None)
-
 start_time = time.perf_counter_ns()
 x = 0
+import nvim_trace.tests.numpy_test
 
 print("\n" * 10)
 print(f"Time of first in for loop: {time.perf_counter_ns() - start_time}")

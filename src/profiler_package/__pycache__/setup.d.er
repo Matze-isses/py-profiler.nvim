@@ -1,7 +1,0 @@
-##[pylyzer] failed /home/admin/nvim/old_vim/lua/nvim_trace/package_wrapper/setup.py 1726291727 436
-.___v_desugar_1: Never
-.setup: Never
-.___v_desugar_2 = pyimport "__init__"
-.__init__ = pyimport "__init__"
-.find_packages: Never
-

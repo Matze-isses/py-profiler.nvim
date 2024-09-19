@@ -1,2 +1,0 @@
-##[pylyzer] failed /home/admin/nvim/old_vim/lua/nvim_trace/package_wrapper/nvim_trace/formatting.py 1726378842 0
-.unit_value_trafo: |R: Type, Type_106 <: Structural({.__div__ = (self: Never, ?R) -> ?T; .__lt__ = (self: Never, ?R) -> Bool; .__gt__ = (self: Never, ?R) -> Bool}), T: Type|(value: Type_106, units: Structural({.__len__ = (self: Never) -> Nat; .__getitem__ = (self: Never, Obj) -> Never})) -> Never
