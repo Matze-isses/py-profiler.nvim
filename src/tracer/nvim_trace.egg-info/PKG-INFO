@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: nvim-trace
+Version: 0.1
+Summary: Tracer module connecting to the neovim lua api!
+Author: Matthis Ehrhardt
+Author-email: ehrhardt.matthis@gmail.com
