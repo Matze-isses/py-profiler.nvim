@@ -3,13 +3,12 @@
 local uv = vim.loop
 
 -- Define your callback function
-local function my_callback(str1, num, str2)
-    print("Received data:", str1, num, str2)
-    print("Test")
+local function my_callback(str1, num, num1, num2)
+    print("Received data:", str1, num, num1, num2)
 end
 
 local server = uv.new_tcp()
-server:bind("127.0.0.1", 12345)
+server:bind("127.0.0.1", 24130)
 
 server:listen(128, function(err)
     assert(not err, err)

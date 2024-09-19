@@ -1,6 +1,7 @@
 setup.py
 nvim_trace/__init__.py
 nvim_trace/__main__.py
+nvim_trace/sender.py
 nvim_trace.egg-info/PKG-INFO
 nvim_trace.egg-info/SOURCES.txt
 nvim_trace.egg-info/dependency_links.txt
@@ -10,7 +11,6 @@ nvim_trace/utils/__init__.py
 nvim_trace/utils/line_data.py
 nvim_trace/utils/logging.py
 nvim_trace/utils/process_frames.py
-nvim_trace/utils/trace_frames.py
 test_files/__init__.py
 test_files/numpy_test.py
 test_files/other_test.py

@@ -23,8 +23,7 @@ class Processor:
             frame_profile.runctx(f_data.code, f_data.frame.f_globals, f_data.frame.f_locals).create_stats()
 
             self._stats[f_data.file_name].add(frame_profile)
-            line_vals = self._stats[f_data.file_name].get_stats_profile().func_profiles[f_data.code]
-            return (f_data.file_name, f_data.line_nr, line_vals.percall_cumtime, line_vals.ncalls)
+            return (f_data.file_name, f_data.line_nr, self._stats[f_data.file_name].get_stats_profile().func_profiles[f_data.code])
         except Exception:
             self._logger.critical(f"Could not get the stats from a frame! this is not supposed to happen and must be fixed, as it could end in unwanted systemwide behavior!\n\n{traceback.format_exc()}\n\n")
             raise ValueError("Error while processing frame!")
