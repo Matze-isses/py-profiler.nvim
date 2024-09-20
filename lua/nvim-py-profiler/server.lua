@@ -3,7 +3,7 @@ local uv = vim.loop
 local printer = require('nvim-py-profiler.printer').printer
 
 local function my_callback(str1, num, str2)
-    printer(str1, num, str2)
+    vim.schedule(function() printer(str1, num, str2) end)
 end
 
 return {

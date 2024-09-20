@@ -1,16 +1,15 @@
+
+
 import numpy as np
-import time
-import sys
 
 
-from nvim_trace.__main__ import Tracer
-tracer = Tracer()
-sys.setprofile(tracer.__call__)
-sys.settrace(tracer.__call__)
-time.sleep(0.1)
+print("Hello")
 
-import test_files.other_test
-import test_files.numpy_test
+values = np.random.random_integers(1, 10)
+large_array = np.random.normal(5, 10, size=(10000, 1000))
+values = values ** 5 
+sec_large = np.random.exponential(10, size=(10000, 1000))
+v = large_array + sec_large
+could_take_a_while = np.random.exponential(10, size=(1000, 1000))
+could_take_a_while += np.random.exponential(10, size=(1000, 1000))
 
-sys.settrace(None)
-sys.setprofile(None)

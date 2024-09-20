@@ -27,15 +27,12 @@ class Tracer:
     def __call__(self, frame, event, args):
         in_current_file = frame.f_code.co_filename.startswith("/home/admin/nvim/")
 
+        if not in_current_file or event != "line": 
+            return self.__call__
+
         filename = frame.f_code.co_filename
         line_code = frame.f_lineno
         line = linecache.getline(filename, line_code)
-
-        if event == "return" and filename in self._context and line_code in self._context[filename]:
-            self._context[filename][line_code]["flags"].append("return")
-
-        if not in_current_file or event != "line": 
-            return self.__call__
 
         if "def" not in line and "for" not in line and "return" not in line:
             data = FData(frame)
@@ -48,7 +45,14 @@ class Tracer:
 
 start_time = time.perf_counter_ns()
 x = 0
+tracer = Tracer()
+sys.settrace(tracer.__call__)
+sys.setprofile(tracer.__call__)
+
 import nvim_trace.tests.numpy_test
+
+sys.settrace(None)
+sys.setprofile(None)
 
 print("\n" * 10)
 print(f"Time of first in for loop: {time.perf_counter_ns() - start_time}")

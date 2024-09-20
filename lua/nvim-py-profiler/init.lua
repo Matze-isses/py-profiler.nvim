@@ -9,6 +9,9 @@ PyTrace = {
     path = "/tmp/nvim_trace.json",
     highlight = "VirtualPerformance",
     path_to_profiler = package_dir .. "/src/profiler_package/nvim_trace/__main__.py",
+    formatter = function(params)
+        
+    end,
 
     ---@return table: table with the filenames as keys and a subtable containing the lines and the corresponding times
     read_file = function(path)
