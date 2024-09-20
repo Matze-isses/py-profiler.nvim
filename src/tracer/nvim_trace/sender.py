@@ -1,6 +1,8 @@
 import socket
 import threading
 
+from nvim_trace.utils.formatter import formatting_output
+
 
 class Sender:
     def __init__(self, host='127.0.0.1', lua_port=22122, python_port=22123):
@@ -17,7 +19,9 @@ class Sender:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 s.connect((self.host, self.lua_port))
-                data = f"{tuple_data}\n"
+                formatted_string = f"{tuple_data[2]} ns"
+                sended_data = (tuple_data[0], tuple_data[1], formatting_output(tuple_data[2]))
+                data = f"{sended_data}\n"
                 s.sendall(data.encode('utf-8'))
                 print("Data sent to Lua:", data.strip())
             except Exception as e:

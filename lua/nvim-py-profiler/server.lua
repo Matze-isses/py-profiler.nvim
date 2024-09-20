@@ -2,8 +2,8 @@
 local uv = vim.loop
 local printer = require('nvim-py-profiler.printer').printer
 
-local function my_callback(str1, num, str2)
-    vim.schedule(function() printer(str1, num, str2) end)
+local function my_callback(file, line_nr, exec_time)
+    vim.schedule(function() printer(file, line_nr, exec_time) end)
 end
 
 return {
@@ -23,10 +23,11 @@ return {
                 assert(not err, err)
                 if data then
                     local s = data:gsub("\n", "")
-                    local str1, num, str2 = string.match(s, "%((.-),%s*(%d+),%s*(.-)%)")
-                    num = tonumber(num)
+                    local file, line_nr, exec_time = string.match(s, "%((.-),%s*(%d+),%s*(.-)%)")
+                    exec_time = exec_time:sub(2, #exec_time-1)
 
-                    if str1 and num and str2 then my_callback(str1, num, str2)
+                    line_nr = tonumber(line_nr)
+                    if file and line_nr and exec_time then my_callback(file, line_nr, exec_time)
                     else print("Failed to parse data:", s) end
                 else client:close() end
             end)
