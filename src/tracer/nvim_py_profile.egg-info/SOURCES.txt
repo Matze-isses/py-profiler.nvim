@@ -1,0 +1,16 @@
+setup.py
+nvim_py_profile/__init__.py
+nvim_py_profile/__main__.py
+nvim_py_profile/sender.py
+nvim_py_profile.egg-info/PKG-INFO
+nvim_py_profile.egg-info/SOURCES.txt
+nvim_py_profile.egg-info/dependency_links.txt
+nvim_py_profile.egg-info/top_level.txt
+nvim_py_profile/tests/__init__.py
+nvim_py_profile/tests/numpy_test.py
+nvim_py_profile/utils/__init__.py
+nvim_py_profile/utils/data.py
+nvim_py_profile/utils/formatter.py
+nvim_py_profile/utils/line_data.py
+nvim_py_profile/utils/logging.py
+nvim_py_profile/utils/process_frames.py

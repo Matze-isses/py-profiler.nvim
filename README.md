@@ -27,3 +27,9 @@ flowchart TB
     server_lua --After filtering and sorting--> buf 
 ```
 
+# Setup: 
+It is required to call the python profiler as script or as package together with the file that should be executed as argument.
+this can be done using following command:
+```
+python ./path/to/tracer/nv
+```

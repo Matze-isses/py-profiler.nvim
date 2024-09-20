@@ -8,7 +8,7 @@ PyTrace = {
     namespace = vim.api.nvim_create_namespace("trace"),
     path = "/tmp/nvim_trace.json",
     highlight = "VirtualPerformance",
-    path_to_profiler = package_dir .. "/src/tracer/nvim_trace/__main__.py",
+    path_to_profiler = package_dir .. "/src/tracer/nvim_py_profile/__main__.py",
     formatter = function(params)
         
     end,

@@ -1,5 +1,6 @@
 import logging
 import profile, pstats, io
+import subprocess
 import profile
 import numpy as np
 import time
@@ -43,17 +44,17 @@ class Tracer:
 
 
 
-start_time = time.perf_counter_ns()
-x = 0
-tracer = Tracer()
-sys.settrace(tracer.__call__)
-sys.setprofile(tracer.__call__)
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python wrapper_script.py script_of_interest.py")
+        sys.exit(1)
 
+    script_of_interest = sys.argv[1]
 
+    tracer = Tracer()
+    sys.settrace(tracer.__call__)
+    sys.setprofile(tracer.__call__)
+    subprocess.run([sys.executable, script_of_interest])
+    sys.settrace(None)
+    sys.setprofile(None)
 
-sys.settrace(None)
-sys.setprofile(None)
-
-print("\n" * 10)
-print(f"Time of first in for loop: {time.perf_counter_ns() - start_time}")
-print("\n" * 10)

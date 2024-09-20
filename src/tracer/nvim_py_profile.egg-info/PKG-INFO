@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: nvim_trace
+Name: nvim_py_profile
 Version: 0.1
-Summary: Tracer module connecting to the neovim lua api!
+Summary: Profiler module connecting to the neovim lua api!
 Author: Matthis Ehrhardt
 Author-email: ehrhardt.matthis@gmail.com
