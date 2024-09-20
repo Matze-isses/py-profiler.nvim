@@ -49,7 +49,7 @@ tracer = Tracer()
 sys.settrace(tracer.__call__)
 sys.setprofile(tracer.__call__)
 
-import nvim_trace.tests.numpy_test
+
 
 sys.settrace(None)
 sys.setprofile(None)

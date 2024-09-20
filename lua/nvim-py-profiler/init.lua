@@ -8,9 +8,13 @@ PyTrace = {
     namespace = vim.api.nvim_create_namespace("trace"),
     path = "/tmp/nvim_trace.json",
     highlight = "VirtualPerformance",
-    path_to_profiler = package_dir .. "/src/profiler_package/nvim_trace/__main__.py",
+    path_to_profiler = package_dir .. "/src/tracer/nvim_trace/__main__.py",
     formatter = function(params)
         
+    end,
+
+    get_start_command = function (path)
+        return PyTrace.path_to_profiler .. " " .. path
     end,
 
     ---@return table: table with the filenames as keys and a subtable containing the lines and the corresponding times
@@ -83,23 +87,13 @@ PyTrace = {
         end
     end,
 
-    watch_file = function (path)
-        path = path or "/tmp/nvim_trace.json"
-        file_watcher = vim.loop.new_fs_event()
-        if not file_watcher then error("Critical filewatcher cannot be started") end
-        file_watcher:start(path, {}, vim.schedule_wrap(function()
-            PyTrace.write_text()
-        end))
-    end,
-
     setup = function (opts)
         require('nvim-py-profiler.server').start_lua_server()
         opts = opts or {}
         opts.namespace = opts.namespace or vim.api.nvim_create_namespace("trace")
         opts.highlight = opts.highlight or PyTrace.highlight
-        self = setmetatable(PyTrace, opts)
 
-        PyTrace.watch_file(opts.file or "/tmp/nvim_trace.json")
+        self = setmetatable(PyTrace, opts)
         return self
     end
 }
