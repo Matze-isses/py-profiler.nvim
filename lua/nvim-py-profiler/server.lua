@@ -15,7 +15,7 @@ return {
         local server = uv.new_tcp()
         server:bind("127.0.0.1", 22122)
 
-        server:listen(128, function(err)
+        server:listen(1024, function(err)
             assert(not err, err)
             local client = uv.new_tcp()
             server:accept(client)
@@ -23,6 +23,7 @@ return {
                 assert(not err, err)
                 if data then
                     local s = data:gsub("\n", "")
+                    print("called")
                     local file, line_nr, exec_time = string.match(s, "%((.-),%s*(%d+),%s*(.-)%)")
                     exec_time = exec_time:sub(2, #exec_time-1)
 
@@ -33,7 +34,7 @@ return {
             end)
         end)
 
-    print("Lua TCP server is listening on port 12345")
+    print("Lua TCP server is listening on port 22122")
     end,
 
     send_data_to_python = function ()

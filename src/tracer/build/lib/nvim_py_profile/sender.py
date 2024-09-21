@@ -1,7 +1,7 @@
 import socket
 import threading
 
-from nvim_trace.utils.formatter import formatting_output
+from nvim_py_profile.utils.formatter import formatting_output
 
 
 class Sender:
@@ -23,7 +23,6 @@ class Sender:
                 sended_data = (tuple_data[0], tuple_data[1], formatting_output(tuple_data[2]))
                 data = f"{sended_data}\n"
                 s.sendall(data.encode('utf-8'))
-                print("Data sent to Lua:", data.strip())
             except Exception as e:
                 print("Error sending data to Lua:", e)
 

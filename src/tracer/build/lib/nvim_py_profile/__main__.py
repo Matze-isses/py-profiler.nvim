@@ -4,19 +4,29 @@ import subprocess
 import profile
 import numpy as np
 import time
+import os
 import sys
 import linecache
 
-from nvim_trace.sender import Sender
-from nvim_trace.utils.logging import PackageLogger
-from nvim_trace.utils.process_frames import Processor
-from nvim_trace.utils.line_data import FData
+from nvim_py_profile.sender import Sender
+from nvim_py_profile.utils.logging import PackageLogger
+from nvim_py_profile.utils.process_frames import Processor
+from nvim_py_profile.utils.line_data import FData
+
+
+def find_setup_py_or_fallback(path):
+    two_levels_up = os.path.abspath(os.path.join(path, '..', '..'))
+    while path != os.path.abspath(os.sep):
+        if 'setup.py' in os.listdir(path):
+            return path
+        path = os.path.abspath(os.path.join(path, '..'))
+    return two_levels_up
 
 
 class Tracer:
 
-    def __init__(self):
-
+    def __init__(self, script_of_interest):
+        self._home_dir = find_setup_py_or_fallback("/".join(script_of_interest.split("/")[:-1]))
         self._logger = PackageLogger()
         self._logger.addHandler(logging.StreamHandler())
         self._processor = Processor(self._logger)
@@ -26,9 +36,12 @@ class Tracer:
         self._context = {}
 
     def __call__(self, frame, event, args):
-        in_current_file = frame.f_code.co_filename.startswith("/home/admin/nvim/")
+        in_current_file = frame.f_code.co_filename == os.path.abspath(self._home_dir)
+        print(f"The current file is named: {frame.f_code.co_filename}")
+        print(f"Current Working Directory: {os.path.abspath(os.getcwd())}")
+        print(self._home_dir)
 
-        if not in_current_file or event != "line": 
+        if in_current_file and event != "line": 
             return self.__call__
 
         filename = frame.f_code.co_filename
@@ -51,10 +64,11 @@ if __name__ == "__main__":
 
     script_of_interest = sys.argv[1]
 
-    tracer = Tracer()
+    tracer = Tracer(script_of_interest)
     sys.settrace(tracer.__call__)
     sys.setprofile(tracer.__call__)
-    subprocess.run([sys.executable, script_of_interest])
+    print(f"Current Working Directory: {os.path.abspath(os.getcwd())}")
+    exec(script_of_interest)
     sys.settrace(None)
     sys.setprofile(None)
 

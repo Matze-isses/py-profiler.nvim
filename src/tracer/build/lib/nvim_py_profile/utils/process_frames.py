@@ -1,6 +1,6 @@
 from typing import Dict
-from nvim_trace.utils.logging import PackageLogger
-from nvim_trace.utils.line_data import FData
+from nvim_py_profile.utils.logging import PackageLogger
+from nvim_py_profile.utils.line_data import FData
 import traceback
 import pstats
 import profile
@@ -20,10 +20,11 @@ class Processor:
                 self._stats[f_data.file_name] = pstats.Stats()
 
             frame_profile = profile.Profile(timer=time.perf_counter_ns)
-            frame_profile.runctx(f_data.code, f_data.frame.f_globals, f_data.frame.f_locals).create_stats()
+            frame_profile.runctx(f_data.code, f_data.frame.f_globals, f_data.frame.f_locals)
 
-            self._stats[f_data.file_name].add(frame_profile)
-            line_vals = self._stats[f_data.file_name].get_stats_profile().func_profiles[f_data.code]
+            self._stats[f_data.file_name].add(frame_profile.create_stats())
+            line_vals = self._stats[f_data.file_name].get_stats_profile()
+            print(line_vals)
             return (f_data.file_name, f_data.line_nr, line_vals.percall_cumtime, line_vals.ncalls)
         except Exception:
             self._logger.critical(f"Could not get the stats from a frame! this is not supposed to happen and must be fixed, as it could end in unwanted systemwide behavior!\n\n{traceback.format_exc()}\n\n")

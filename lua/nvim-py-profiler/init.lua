@@ -69,24 +69,6 @@ PyTrace = {
         return buffer_time_map
     end,
 
-    write_text = function()
-        local data = PyTrace.get_subtable(PyTrace.path)
-        print(vim.inspect(data))
-
-        for buf, subtable in pairs(data) do
-            vim.api.nvim_buf_clear_namespace(buf, PyTrace.namespace, 0, -1)
-
-            vim.api.nvim_buf_call(buf, function()
-                local max_lines = #vim.api.nvim_buf_get_lines(buf, 0, -1, true)
-                for line, trace in pairs(subtable) do
-                    if line >= max_lines then break end
-                    print(line, trace)
-                    vim.api.nvim_buf_set_extmark(buf, PyTrace.namespace, line, 0, {virt_text={{trace, PyTrace.highlight}}, virt_text_pos="right_align", hl_mode="combine"})
-                end
-            end)
-        end
-    end,
-
     setup = function (opts)
         require('nvim-py-profiler.server').start_lua_server()
         opts = opts or {}
